@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Projecto 4</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    .border{border-style: outset;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container border" name="logoUMD" >
+            <img src="umdLogo.gif" alt="University Of Maryland">
+        </div>
+        <div class="container border" name="welcome" >
+            <p style="font-size: 50px">
+            <img src="testudo.jpg" alt="Testudo">
+                <strong>Welcome to the UMCP Application System</strong>
+            </p>
+            <form action="actionPros.php" method="POST">
+                <input type="submit" value="Submit Application" name="submit_app" >
+                <input type="submit" value="Review Application" name="review_app">
+                <input type="submit" value="Update Application" name="update_app">
+                <input type="submit" value="Administrative" name="admin_app">
+            </form><br>
+        </div>
+    <p>If you have any questions about our program, please contact the system administrator at <a href="mailto:csalaman@terpmail.umd.edu">csalaman@terpmail.umd.edu</a> </p>
+    </div>
+
+
+
+<!-- jQuery (needed for Bootstrap's JS plugins) -->
+<script src="bootstrap/jquery-3.2.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
