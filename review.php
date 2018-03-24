@@ -21,6 +21,15 @@ $html_one = <<<HTML
     </style>
 </head>
 <body>
+    <br>
+     <div class="container" name="logoUMD" >
+
+                <div  style="float: left; align-content: left; display: inline-block">
+                    <img src="umdLogo.gif" alt="University Of Maryland">
+                </div>
+               
+    </div><br>
+    
     <div class="container border">
             <form action="{$_SERVER['PHP_SELF']}" method="POST">
                 <div class="form-group">
@@ -72,6 +81,22 @@ if(isset($_SESSION['user']) && isset($_SESSION['password']) ){
                  </style>
                 </head>
                 <body>
+                  <br>
+                    <div class="container" name="logoUMD">
+
+                        <div style="float: left; align-content: left; display: inline-block">
+                             <img src="umdLogo.gif" alt="University Of Maryland">
+                         </div>
+
+                    <div style="float: right; align-content: right; display: inline-block">
+                         <form action="logout.php">
+                             <input type="submit" value="Logout Session">
+                         </form>
+                    </div>
+
+                    </div>
+                    <br>
+                    
                   <div class="container border">
             
                             <p><strong>Application found in the database with the following values:</strong></p>
