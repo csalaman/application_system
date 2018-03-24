@@ -36,7 +36,7 @@ $html_one = <<<HTML
             </form>
             <form action="main.html">
                 <input type="submit" value="Return to main menu" />
-            </form>
+            </form><br>
         </div>
 
     </div>
@@ -82,7 +82,7 @@ if(isset($_SESSION['user']) && isset($_SESSION['password']) ){
                             <p><strong>Gender: </strong>{$entry['gender']}</p>
                           <form action="main.html">
                                <input type="submit" value="Return to main menu" />
-                           </form>
+                           </form><br>
                  </div>
                 </body>
                 </html>
@@ -126,7 +126,7 @@ else if(!isset($_POST['review_submit'])){
                             <p><strong>Gender: </strong>{$entry['gender']}</p>
                           <form action="main.html">
                                <input type="submit" value="Return to main menu" />
-                           </form>
+                           </form><br>
                  </div>
                 </body>
                 </html>
@@ -134,6 +134,7 @@ HTML;
             echo $out;
         }
     }else{
+        echo "<div class='container'><p><strong>Invalid username/password</strong></p></div>";
         echo $html_one;
     }
 }

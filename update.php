@@ -22,6 +22,14 @@ $html_one = <<<HTML
     </style>
 </head>
 <body>
+    <br><div class="container" name="logoUMD" >
+
+                <div  style="float: left; align-content: left; display: inline-block">
+                    <img src="umdLogo.gif" alt="University Of Maryland">
+                </div>
+               
+    </div><br>
+    
     <div class="container border">
             <form action="{$_SERVER['PHP_SELF']}" method="POST">
                 <div class="form-group">
@@ -52,12 +60,9 @@ $html_one = <<<HTML
 HTML;
 
 
+if (isset($_POST['update_verification'])) {
 
-
-
-if(isset($_POST['update_verification'])){
-
-    if(trim($_POST['password1']) != trim($_POST['password2'])){
+    if (trim($_POST['password1']) != trim($_POST['password2'])) {
         echo "<div class='container'><p><strong>Passwords do not match!</p></div>";
         $entry = $db->getUserByEmail($_SESSION['user']);
 
@@ -76,6 +81,14 @@ if(isset($_POST['update_verification'])){
     </style>
 </head>
 <body>
+    <br><div class=\"container\" name=\"logoUMD\" >
+
+                <div  style=\"float: left; align-content: left; display: inline-block\">
+                    <img src=\"umdLogo.gif\" alt=\"University Of Maryland\">
+                </div>
+               
+    </div><br>
+    
     <div class=\"container border\">
             <form action=\"{$_SERVER['PHP_SELF']}\" method=\"POST\">
                 <div class=\"form-group\">
@@ -89,7 +102,7 @@ if(isset($_POST['update_verification'])){
                 <label for=\"gpa\"><strong>GPA:</strong></label>
                 <input type=\"text\" name=\"gpa\" value='{$entry['gpa']}'required><br>
 ";
-        if($entry['year'] == 10){
+        if ($entry['year'] == 10) {
             $html_up .= "
              <div class=\"form-group\" >
                 <label for=\"year\"><strong>Year:</strong></label>
@@ -104,7 +117,7 @@ if(isset($_POST['update_verification'])){
                 <label for=\"radio\">12</label>
                 </div>
             ";
-        }else if($entry['year'] == 11){
+        } else if ($entry['year'] == 11) {
             $html_up .= "
              <div class=\"form-group\" >
                 <label for=\"year\"><strong>Year:</strong></label>
@@ -119,7 +132,7 @@ if(isset($_POST['update_verification'])){
                 <label for=\"radio\">12</label>
                 </div>
             ";
-        }else{
+        } else {
             $html_up .= "
              <div class=\"form-group\" >
                 <label for=\"year\"><strong>Year:</strong></label>
@@ -136,7 +149,7 @@ if(isset($_POST['update_verification'])){
             ";
         }
 
-        if($entry['gender'] == 'M'){
+        if ($entry['gender'] == 'M') {
             $html_up .= "
             <div class=\"form-group\" >
                 <label for=\"gender\"><strong>Gender:</strong></label>
@@ -148,7 +161,7 @@ if(isset($_POST['update_verification'])){
                 <label for=\"radio\">F</label>
                </div>
             ";
-        }else{
+        } else {
             $html_up .= "
             <div class=\"form-group\" >
                 <label for=\"gender\"><strong>Gender:</strong></label>
@@ -192,55 +205,63 @@ if(isset($_POST['update_verification'])){
         ";
         echo $html_up;
 
-    }else{
+    } else {
         $new_name = trim($_POST['name']);
         $new_email = trim($_POST['email']);
         $new_gpa = trim($_POST['gpa']);
         $new_year = $_POST['year'];
         $new_gender = $_POST['gender'];
         $new_password = trim($_POST['password1']);
-        if($db->update($new_name,$_SESSION['user'],$new_email,$new_gpa,$new_year,$new_gender,$_SESSION['password'],$new_password)){
+        if ($db->update($new_name, $_SESSION['user'], $new_email, $new_gpa, $new_year, $new_gender, $_SESSION['password'], $new_password)) {
             $_SESSION['user'] = $new_email;
             $_SESSION['password'] = $new_password;
 
             $out = <<<HTML
-                <!DOCTYPE html>
-                <html lang="en" >
-                <head>
-                    <meta charset="UTF-8">
-                  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                 <meta name="viewport" content="width=device-width, initial-scale=1">
-                 <title>Projecto 4</title>
-                 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-                 <style>
-                    .border{border-style: outset;}
-                 </style>
-                </head>
-                <body>
-                  <div class="container border">
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projecto 4</title>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<style>
+.border{border-style: outset;}
+</style>
+</head>
+<body>
+  <br>
+  <div class="container" name="logoUMD" >
+    <div  style="float: left; align-content: left; display: inline-block">
+       <img src="umdLogo.gif" alt="University Of Maryland">
+    </div>
+               
+  </div><br>
+
+  <div class="container border">
             
-                            <p><strong>The following entry has been added to the database</strong></p>
-                            <p><strong>Name: </strong> {$new_name}</p>
-                            <p><strong>Email: </strong> {$new_email}</p>
-                            <p><strong>Gpa: </strong>{$new_gpa}</p>
-                            <p><strong>Year: </strong>{$new_year}</p>
-                            <p><strong>Gender: </strong>{$new_gender}</p>
-                          <form action="main.html">
-                               <input type="submit" value="Return to main menu" />
-                           </form>
-                 </div>
-                </body>
-                </html>
+    <p><strong>The following entry has been added to the database</strong></p>
+    <p><strong>Name: </strong> {$new_name}</p>
+    <p><strong>Email: </strong> {$new_email}</p>
+    <p><strong>Gpa: </strong>{$new_gpa}</p>
+    <p><strong>Year: </strong>{$new_year}</p>
+    <p><strong>Gender: </strong>{$new_gender}</p>
+    <form action="main.html">
+       <input type="submit" value="Return to main menu" />
+     </form>
+   </div>
+</body>
+</html>
 HTML;
             echo $out;
 
 
-        }else{
+        } else {
             echo "<p>ERROR SUBMITTING TO DATABASE!</p>";
         }
     }
-}else if((isset($_SESSION['user']) && isset($_SESSION['password']))){
-    if($db->verifyPassword($_SESSION['user'],$_SESSION['password'])){
+} else if ((isset($_SESSION['user']) && isset($_SESSION['password']))) {
+    if ($db->verifyPassword($_SESSION['user'], $_SESSION['password'])) {
         $entry = $db->getUserByEmail($_SESSION['user']);
 
         $html_up = "
@@ -258,6 +279,14 @@ HTML;
     </style>
 </head>
 <body>
+    <br>
+    <div class=\"container\" name=\"logoUMD\" >
+       <div  style=\"float: left; align-content: left; display: inline-block\">
+        <img src=\"umdLogo.gif\" alt=\"University Of Maryland\">
+       </div>               
+    </div>
+    <br>
+
     <div class=\"container border\">
             <form action=\"{$_SERVER['PHP_SELF']}\" method=\"POST\">
                 <div class=\"form-group\">
@@ -271,7 +300,7 @@ HTML;
                 <label for=\"gpa\"><strong>GPA:</strong></label>
                 <input type=\"text\" name=\"gpa\" value='{$entry['gpa']}'required><br>
 ";
-        if($entry['year'] == 10){
+        if ($entry['year'] == 10) {
             $html_up .= "
              <div class=\"form-group\" >
                 <label for=\"year\"><strong>Year:</strong></label>
@@ -286,7 +315,7 @@ HTML;
                 <label for=\"radio\">12</label>
                 </div>
             ";
-        }else if($entry['year'] == 11){
+        } else if ($entry['year'] == 11) {
             $html_up .= "
              <div class=\"form-group\" >
                 <label for=\"year\"><strong>Year:</strong></label>
@@ -301,7 +330,7 @@ HTML;
                 <label for=\"radio\">12</label>
                 </div>
             ";
-        }else{
+        } else {
             $html_up .= "
              <div class=\"form-group\" >
                 <label for=\"year\"><strong>Year:</strong></label>
@@ -318,7 +347,7 @@ HTML;
             ";
         }
 
-        if($entry['gender'] == 'M'){
+        if ($entry['gender'] == 'M') {
             $html_up .= "
             <div class=\"form-group\" >
                 <label for=\"gender\"><strong>Gender:</strong></label>
@@ -330,7 +359,7 @@ HTML;
                 <label for=\"radio\">F</label>
                </div>
             ";
-        }else{
+        } else {
             $html_up .= "
             <div class=\"form-group\" >
                 <label for=\"gender\"><strong>Gender:</strong></label>
@@ -373,14 +402,14 @@ HTML;
 </html>
         ";
         echo $html_up;
-    }else{
+    } else {
         echo "<div class='container'><p><strong>Invalid username/password</strong></p></div>";
         unset($_SESSION['user']);
         unset($_SESSION['password']);
         echo $html_one;
     }
-}else if(isset($_POST['update_log'])){
-    if($db->verifyPassword(trim($_POST['user_up']),trim($_POST['password_up']))){
+} else if (isset($_POST['update_log'])) {
+    if ($db->verifyPassword(trim($_POST['user_up']), trim($_POST['password_up']))) {
         $entry = $db->getUserByEmail(trim($_POST['user_up']));
         $_SESSION['user'] = trim($_POST['user_up']);
         $_SESSION['password'] = trim($_POST['password_up']);
@@ -413,7 +442,7 @@ HTML;
                 <label for=\"gpa\"><strong>GPA:</strong></label>
                 <input type=\"text\" name=\"gpa\" value='{$entry['gpa']}'required><br>
 ";
-        if($entry['year'] == 10){
+        if ($entry['year'] == 10) {
             $html_up .= "
              <div class=\"form-group\" >
                 <label for=\"year\"><strong>Year:</strong></label>
@@ -428,7 +457,7 @@ HTML;
                 <label for=\"radio\">12</label>
                 </div>
             ";
-        }else if($entry['year'] == 11){
+        } else if ($entry['year'] == 11) {
             $html_up .= "
              <div class=\"form-group\" >
                 <label for=\"year\"><strong>Year:</strong></label>
@@ -443,7 +472,7 @@ HTML;
                 <label for=\"radio\">12</label>
                 </div>
             ";
-        }else{
+        } else {
             $html_up .= "
              <div class=\"form-group\" >
                 <label for=\"year\"><strong>Year:</strong></label>
@@ -460,7 +489,7 @@ HTML;
             ";
         }
 
-        if($entry['gender'] == 'M'){
+        if ($entry['gender'] == 'M') {
             $html_up .= "
             <div class=\"form-group\" >
                 <label for=\"gender\"><strong>Gender:</strong></label>
@@ -472,7 +501,7 @@ HTML;
                 <label for=\"radio\">F</label>
                </div>
             ";
-        }else{
+        } else {
             $html_up .= "
             <div class=\"form-group\" >
                 <label for=\"gender\"><strong>Gender:</strong></label>
@@ -515,14 +544,14 @@ HTML;
 </html>
         ";
         echo $html_up;
-    }else{
+    } else {
         echo "<div class='container'><p><strong>Invalid username/password</strong></p></div>";
         unset($_SESSION['user']);
         unset($_SESSION['password']);
         echo $html_one;
     }
 
-}else{
+} else {
     echo $html_one;
 }
 

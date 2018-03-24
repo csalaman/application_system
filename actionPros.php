@@ -8,9 +8,8 @@
 
 require_once "DatabaseInstance.php";
 
-#$db->insert('juana','y@tho.com',3.99,2,'M','hi');
-//$db->update('juana','y@tho.com','cause@you.com',20.5,100,'F','hi','byebye');
-//$db->getData();
+$user = "main";
+$pass_hash = password_hash("terps",PASSWORD_DEFAULT);
 
 if(isset($_POST['submit_app'])){
     unset($_POST['submit_app']);
@@ -23,7 +22,14 @@ if(isset($_POST['submit_app'])){
     header('Location: update.php');
 }else if(isset($_POST['admin_app'])){
     unset($_POST['admin_app']);
-    header('Location: admin.php');
+    if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) &&
+        $_SERVER['PHP_AUTH_USER'] == $user && password_verify($_SERVER['PHP_AUTH_PW'],$pass_hash)){
+        header('Location: admin.php');
+    }else {
+        header("WWW-Authenticate: Basic realm=\"Hi you here\"");
+        header("HTTP/1.0 401 Unauthorized");
+        echo "You have cancelled admin login";
+    }
 }
 
 ?>

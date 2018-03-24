@@ -90,10 +90,91 @@ class DatabaseInstance
         $query = "SELECT * FROM applicants WHERE email = '{$email}'";
         $result = $this->db_connect->query($query);
         if(!$result){
-            echo "<div class='container'><p><strong>Could not locate user to retrieve!</strong></p> </div>";
+            return null;
         }else{
             return $result->fetch_assoc();
         }
+    }
+
+    function getTableInformation($fields,$sort_by,$filter){
+        $query = "SELECT ";
+        if($fields != null){
+            $counter = 0;
+            foreach ($fields as $val){
+                if($counter == sizeof($fields)-1){
+                    $query .= $val." ";
+                }else{
+                    $query .= "".$val.", ";
+                    $counter += 1;
+                }
+            }
+        }else{
+            $query .= "* ";
+        }
+        $query .= "FROM applicants ";
+
+        if($filter != null){
+            $query .= "WHERE ".$filter." ";
+        }
+
+        $query .= "ORDER BY ".$sort_by;
+
+        $result = $this->db_connect->query($query);
+        if(!$result){
+            die("Request for applications failed: ".$this->db_connect->error);
+        }else{
+            $table = "
+            <table class='table'>
+            <tr>";
+
+            if($fields == null){
+                $table .= "
+            
+                <th><strong>Name</strong></th> 
+                <th><strong>Email</strong></th>  
+                <th><strong>GPA</strong></th>  
+                <th><strong>Year</strong></th>  
+                <th><strong>Gender</strong></th>         
+            </tr>        
+ ";
+            }else{
+                foreach ($fields as $val){
+                    $table .= "<th><strong>".ucwords($val)."</strong></th> ";
+                }
+                $table .= "</tr>";
+            }
+
+
+
+
+
+
+
+            if ($result->num_rows > 0) {
+                // output data of each row
+                while($row = $result->fetch_assoc()) {
+                    $table .= "<tr>";
+
+                    if($fields == null){
+                        foreach ($row as $field){
+                            if($row['password'] != $field){
+                                $table .= "<td>".$field."</td>";
+                            }
+                        }
+                    }else{
+                        foreach ($fields as $field){
+                            $table .= "<td>".$row[$field]."</td>";
+                        }
+                    }
+
+                    $table .= "</tr>";
+                }
+            }
+            $table .= "</table>";
+
+            return $table;
+        }
+
     }
 
 }

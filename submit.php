@@ -23,21 +23,31 @@ $html_in = <<< HTML
     </style>
 </head>
 <body>
+     <br>
+     <div class="container" name="logoUMD" >
+
+                <div  style="float: left; align-content: left; display: inline-block">
+                    <img src="umdLogo.gif" alt="University Of Maryland">
+                </div>
+               
+    </div><br>
+    
     <div class="container border">
+            <br>
             <form action="{$_SERVER['PHP_SELF']}" method="POST">
                 <div class="form-group">
                 
-                <label for="name"><strong>Name:</strong></label>
+                <label for="name"><strong>Name: </strong></label>
                 <input type="text" name="name" required><br>
                 
                 <label for="email"><strong>Email:</strong></label>
                 <input type="email" name="email" required><br>
                 
-                <label for="gpa"><strong>GPA:</strong></label>
+                <label for="gpa"><strong>GPA:  </strong></label>
                 <input type="text" name="gpa" required><br>
                 
                 
-                <div class="form-group" >
+               
                 <label for="year"><strong>Year:</strong></label>
                
                 <input type="radio" value = "10" name="year" required>
@@ -48,9 +58,9 @@ $html_in = <<< HTML
 
                 <input type="radio"  value ="12" name="year">
                 <label for="radio">12</label>
-                </div>
+                <br>          
                 
-                <div class="form-group" >
+                
                 <label for="gender"><strong>Gender:</strong></label>
                 
                 <input type="radio" value="M"  name="gender" required>
@@ -58,23 +68,24 @@ $html_in = <<< HTML
 
                 <input type="radio"  value ="F" name="gender">
                 <label for="radio">F</label>
-                </div>
                 
+                <br><br>
                 <label for="password"><strong>Password:</strong></label>
                 <input type="password" name="password1" required><br>
                 
                 <label for="veri"><strong>Verify Password:</strong></label>
                 <input type="password" name="password2" required><br>
                 
-                
+                <br><br>
                 <input type="submit" value="Submit Data" name="submit_data"><br>
                 
 
                 </div>
-            </form><br>
+            </form>
+            
             <form action="main.html">
                 <input type="submit" value="Return to main menu" />
-            </form>
+            </form><br>
         </div>
 
     </div>
@@ -89,28 +100,27 @@ $html_in = <<< HTML
 HTML;
 
 
-
-
-if(!isset($_POST['submit_data']) && !isset($_POST['main_return'])){
+if (!isset($_POST['submit_data']) && !isset($_POST['main_return'])) {
     echo $html_in;
-}else if(isset($_POST['main_return'])){
+} else if (isset($_POST['main_return'])) {
     unset($_POST['main_return']);
     header('Location: main.html');
-}else if(isset($_POST['submit_data'])){
-    if(trim($_POST['password1']) != trim($_POST['password2'])){
+} else if (isset($_POST['submit_data'])) {
+    if (trim($_POST['password1']) != trim($_POST['password2'])) {
         echo $html_in;
         echo "<div class='container'><p><strong>Passwords do not match!</p></div>";
-    }else{
-        if($db->insert(trim($_POST['name']),trim($_POST['email']),floatval(trim($_POST['gpa'])),trim($_POST['year']),trim($_POST['gender']),trim($_POST['password1']))){
-            $name = trim($_POST['name']);
-            $email=trim($_POST['email']);
-            $gpa=floatval(trim($_POST['gpa']));
+    } else {
+        if ($db->getUserByEmail(trim($_POST['email'])) != null) {
+            echo "<div class='container'><p><strong>User already exist with the associated email!</strong></p></div>";
+            echo $html_in;
+        } else {
+            if ($db->insert(trim($_POST['name']), trim($_POST['email']), floatval(trim($_POST['gpa'])), trim($_POST['year']), trim($_POST['gender']), trim($_POST['password1']))) {
+                $name = trim($_POST['name']);
+                $email = trim($_POST['email']);
+                $gpa = floatval(trim($_POST['gpa']));
 
-            $_SESSION['user'] = $email;
-            $_SESSION['password'] = trim($_POST['password1']);
 
-
-            $out = <<<HTML
+                $out = <<<HTML
                 <!DOCTYPE html>
                 <html lang="en" >
                 <head>
@@ -124,6 +134,14 @@ if(!isset($_POST['submit_data']) && !isset($_POST['main_return'])){
                  </style>
                 </head>
                 <body>
+                    <br>
+                    <div class="container" name="logoUMD" >
+                        <div  style="float: left; align-content: left; display: inline-block">
+                        <img src="umdLogo.gif" alt="University Of Maryland">
+                    </div>
+               
+                    </div><br>
+                  
                   <div class="container border">
             
                             <p><strong>The following entry has been added to the database</strong></p>
@@ -139,14 +157,15 @@ if(!isset($_POST['submit_data']) && !isset($_POST['main_return'])){
                 </body>
                 </html>
 HTML;
-        echo $out;
-        }else{
-            echo "<p>ERROR SUBMITTING TO DATABASE!</p>";
+                echo $out;
+            } else {
+                echo "<p>ERROR SUBMITTING TO DATABASE!</p>";
+            }
         }
     }
 
 
-}else if(isset($_POST['main_return'])){
+} else if (isset($_POST['main_return'])) {
     unset($_POST['main_return']);
     header('Location: main.html');
 }
